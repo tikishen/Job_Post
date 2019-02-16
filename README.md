@@ -1,6 +1,5 @@
-# Restaurant Reservation Database Project
+# Job posting Database Project
 
-The restaurant reservation system maintains the catalog for different kinds of restaurants that can be reserved. Users can view their reservation history. A friend list is also provided, and users can see their friends' reservation history. Users can comment on the restaurants as well.<br>
-A similar web site could be OpenTable <br>
-**Data the project will store and show:** restaurant list, restaurant comments, user reservation history (including friend reservation history), friend list <br>
-**Interactive element:** Users can comment on the restaurants, so the comments can also be showed to the public.
+I found a dataset of job posts, with columns job id, company name (but they are fake), industry, job position, required major and degree, years of working experience and miles from metropolis. I plan to use these information to create a job posting database application. The similar website is Indeed. I re-wrote project proposal because the data inside job posting dataset are sufficient and large enough.
+
+Some possible features for this project: input key words, including job position, company name, major and degree can find relevant job information. Input job position associated with miles from metropolis or working experience can find relevant job information. 
