@@ -1,0 +1,49 @@
+{% extends "base_bootstrap.html" %}
+
+{% block navbar %}
+<!-- https://www.w3schools.com/booTsTrap/bootstrap_navbar.asp -->
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'menu_main' %}">{{ settings.APP_NAME }}</a>
+    </div>
+    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
+    <ul class="nav navbar-nav">
+      {% url 'menu_main' as menu_main %}
+      <li {% if request.get_full_path == menu_main %}class="active"{% endif %}>
+          <a href="{% url 'menu_main' %}">Ads</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+        {% url 'ad_create' as ad_create %}
+      <li {% if request.get_full_path == ad_create %}class="active"{% endif %}>
+          <a href="{% url 'ad_create' %}">Create Ad</a></li>
+      <li class="dropdown">
+      <!-- gravatar depends on app_tags being loaded -->
+      <!-- https://brobin.me/blog/2016/07/super-simple-django-gravatar/ -->
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle"><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="{% url 'logout' %}?next={{ menu_main }}">Logout</a></li>
+        </ul>
+       </li>
+       {% else %}
+       <li><a href="{% url 'login' %}?next={{ menu_main }}">Login</a></li>
+       {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<p>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit">
+    <input type="submit" value="Cancel" onclick="window.location.href='{% url 'ads' %}';return false;">
+    <p>
+</p>
+  </form>
+</p>
+{% endblock %}
