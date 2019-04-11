@@ -20,3 +20,8 @@ Type the following url to web browser to view the website locally : http://local
 It can login in by Github account, or use account: tiki, password: 1234.
 
 
+### Built With
+Django
+
+### Author
+Elena Shen
