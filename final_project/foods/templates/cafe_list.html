@@ -1,0 +1,24 @@
+{% extends "base_menu.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid bg-3 text-center">
+    <h3>Cafe in Campus</h3><br>
+
+    {% if cafe_list %}
+    <div class="row">
+        {% for cafe in cafe_list %}
+        <div class="col-sm-4">
+            <h4>{{ cafe.name }}</h4>
+            <p>Locates at {{ cafe.location }}, serving breakfast, lunch and dinner.</p>
+            <a href="{% url 'meals' cafe.name %}" class="btn btn-warning" role="button">See Meal</a>
+            <p></p>
+            <img src="{% get_static_prefix %}images/{{ cafe.pic_path }}"
+                 alt="Image" width="350" height="300">
+        </div>
+
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

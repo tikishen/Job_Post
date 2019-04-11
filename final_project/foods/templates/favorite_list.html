@@ -1,0 +1,26 @@
+{% extends "base_menu.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid text-center">
+    <h2>My Favorite Food</h2>
+    <h4></h4>
+    {% if user.is_authenticated %}
+    <br>
+    {% if food_list %}
+    {% for food in food_list %}
+    <div class="row">
+        <div class="col-sm-4">
+            {% if food.content_type %}
+            <img src="{% url 'food_picture' food.id %}" alt="Image" width="200" height="180">
+            {% endif %}
+            <h4><a href="{% url 'food_detail' food.id %}">{{ food.name }}</a></h4>
+            <p>{{ food.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

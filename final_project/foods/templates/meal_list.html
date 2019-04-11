@@ -1,0 +1,44 @@
+{% extends "base_menu.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="text-center">
+        <h2>Meal</h2>
+        <h4>Choose your today's meal</h4><br>
+    </div>
+    <div class="row">
+        {% if meal_list %}
+        {% for meal in meal_list %}
+        <div class="col-sm-4 col-xs-12">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h1>{{ meal.name }}</h1>
+                    <h4>{{ meal.date }}</h4>
+                    <h4>Serves at {{ meal.cafe }}</h4>
+                </div>
+                <div class="panel-body">
+                    {% if meal.foods %}
+                    {% for food in meal.foods.all %}
+                    <li><a href="{% url 'food_detail' food.id %}">{{ food }}</a></li>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <div class="panel-footer">
+                    <h3>$ {{ meal.price }}</h3>
+                    <h4>per meal</h4>
+
+                    {% if user.is_authenticated %}
+                    (<a href="{% url 'meal_update' meal.id %}">Edit</a> |
+                    <a href="{% url 'meal_delete' meal.id %}">Delete</a>)
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+  </div>
+</div>
+
+{% endblock %}

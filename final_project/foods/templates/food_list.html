@@ -1,0 +1,78 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+
+<div class="container-fluid text-center">
+    <h2>Food</h2>
+    <h4>What we offer</h4>
+    <br>
+    {% if food_list %}
+    {% for food in food_list %}
+    <div class="row">
+        <div class="col-sm-4">
+            {% if food.content_type %}
+            <img src="{% url 'food_picture' food.id %}" alt="Image" width="200" height="180">
+            {% endif %}
+            <h4><a href="{% url 'food_detail' food.id %}">{{ food.name }}</a></h4>
+            <p>{{ food.description }}</p>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'favorite_toggle' food.id %}" onclick=
+                    "favPost('{% url 'food_unfavorite' food.id %}', {{ food.id }} );return false;"
+               {% if food.id not in favorites %} style="display: none;" {% endif %}
+               id="favorite_star_{{food.id}}">
+
+                <span class="fa-stack" style="vertical-align: middle;">
+                    <i class="fa fa-heart fa-stack-1x" style="color: #FAA;"></i>
+                    <i class="fa fa-heart-o fa-stack-1x" style="color: #FAA;"></i>
+                </span>
+            </a>
+
+            <a href="{% url 'favorite_toggle' food.id %}" onclick=
+             "favPost('{% url 'food_favorite' food.id %}', {{ food.id }} );return false;"
+               {% if food.id in favorites %} style="display: none;" {% endif %}
+               id="unfavorite_star_{{food.id}}">
+                <span class="fa-stack" style="vertical-align: middle;">
+                    <i class="fa fa-heart fa-stack-1x" style="display: none; color: #FAA;"></i>
+                    <i class="fa fa-heart-o fa-stack-1x" style="color: #FAA;"></i>
+                </span>
+            </a>
+
+            <!--<a href="{% url 'favorite_toggle' food.id %}" role="button">-->
+                <!--<i style="font-size: 15px; color: #FAA;" class="fa fa-heart"></i>-->
+            <!--</a>-->
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <p>(<a href="{% url 'food_update' food.id %}">Edit</a> |
+                <a href="{% url 'food_delete' food.id %}">Delete</a>)</p>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function favPost(url, thing_id) {
+    fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+    }).then(function(data) {
+        console.log(url, 'finished');
+        $("#unfavorite_star_"+thing_id).toggle();
+        $("#favorite_star_"+thing_id).toggle();
+    }).catch(function() {
+        console.log(url, 'error');
+    })
+}
+</script>
+{% endblock %}

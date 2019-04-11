@@ -1,0 +1,55 @@
+{% extends "base_menu.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %} <!-- https://docs.djangoproject.com/en/2.1/ref/contrib/humanize -->
+
+{% block content %}
+<div class="container">
+    <span style="float: right;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'food_update' food.id %}"><i style="font-size: 18px" class="fa fa-pencil"></i></a>
+        <a href="{% url 'food_delete' food.id %}"><i style="font-size: 18px" class="fa fa-trash"></i></a>
+        {% endif %}
+    </span>
+    <h3 class="text-center">{{ food.name }}</h3>
+    <p class="text-center">{{ food.description }}</p>
+    {% if food.categories %}
+
+    <p class="text-center">
+        Categories:
+        {% for category in food.categories.all %}
+        {{ category }}
+        {% endfor %}
+    </p>
+
+    {% endif %}
+    <img class="img-responsive center-block"
+         src="{% url 'food_picture' food.id %}" alt="Image" width="350" height="300">
+</div>
+
+<h4>Comments</h4>
+{% for comment in comments %}
+<p> {{ comment.text }}
+    ({{ comment.updated_at|naturaltime }})
+    {% if user == comment.owner %}
+    <a href="{% url 'comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+    {% endif %}
+</p>
+{% endfor %}
+
+
+{% if user.is_authenticated %}
+<br><p><em>Share your comments</em></p>
+<br clear="all"/>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <form method="post" action="{% url 'comment_create' food.id %}">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            <input type="submit" value="Submit">
+            <input type="submit" value="All Food" onclick="window.location.href='{% url 'foods' %}';return false;">
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

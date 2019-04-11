@@ -1,0 +1,57 @@
+{% extends 'base_bootstrap.html' %}
+{% load app_tags %} <!-- see home/templatetags/app_tags.py -->
+{% block navbar %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-ice-lolly-tasted"></span>{{ settings.APP_NAME }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                {% url 'cafes' as cafes %}
+                <li {% if request.get_full_path == cafes %}class="active"{% endif %}>
+                    <a href="{% url 'cafes' %}">Cafe</a></li>
+
+                {% url 'meals' as meals %}
+                <li {% if request.get_full_path == meals %}class="active"{% endif %}>
+                    <a href="{% url 'meals' %}">Meal</a></li>
+
+                {% url 'foods' as foods %}
+                <li {% if request.get_full_path == foods %}class="active"{% endif %}>
+                    <a href="{% url 'foods' %}">Food</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'food_create' %}">Create Food</a>
+                </li>
+                <li>
+                    <a href="{% url 'meal_create' %}">Create Meal</a>
+                </li>
+                 <li>
+                    <a href="{% url 'favorites' %}"><i style="font-size: 18px; color: #FAA;" class="fa fa-heart"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <img style="width: 25px;" src="{{ user|gravatar:60 }}"/><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}?next={% url 'foods' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+
