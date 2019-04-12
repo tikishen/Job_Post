@@ -17,8 +17,6 @@ python3 manage.py runserver
 ```
 Type the following url to web browser to view the website locally : http://localhost:8000
 
-Login ID: visitor, password: gocafe1223. You can also log in through github.
-
 
 ### Built With
 Django
